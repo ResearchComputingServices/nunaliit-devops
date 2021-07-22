@@ -20,6 +20,9 @@
 #      section checking the state of the environment before
 #      proceeding?
 #
+#   3. Script deb config settings for couchdb, to avoid interactive
+#      questions. Or use apt settings to accept defaults?
+#
 #   3. Move these TODO items into Github, and give myself a warm
 #      welcome into the 21st century!  You mean not everything
 #      can be done in plain text?!?!  ;-)
@@ -52,22 +55,19 @@
 APT="apt-get -y"
 
 
-
 ############################################################
 #
 # A. INSTALL PREREQUISITES
 #
 ############################################################
 
-
-# AHH! This bintray apt repo doesn't seem to work! Is that temporary,
-# or is it gone?  If it is gone, is there another location to grab old
-# deb packages for couchdb?
-echo "deb https://apache.bintray.com/couchdb-deb bionic main" > /etc/apt/sources.list.d/couchdb.list
+curl https://couchdb.apache.org/repo/keys.asc | gpg --dearmor > /usr/share/keyrings/couchdb-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/couchdb-archive-keyring.gpg] https://apache.jfrog.io/artifactory/couchdb-deb/ bionic main" > /etc/apt/sources.list.d/couchdb.list
 $APT update
 $APT full-upgrade
 $APT install openjdk-8-jdk-headless apt-transport-https curl
-$APT install -y couchdb=2.3.1~bionic
+$APT install couchdb=2.3.1~bionic
+
 
 ############################################################
 #
