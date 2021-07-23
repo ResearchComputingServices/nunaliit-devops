@@ -12,42 +12,18 @@
 
 ############################################################
 #
-# CONFIGURATION - MODIFY THESE VARIABLES FOR YOUR INSTALL
-#
-# You shouldn't need to change anything past this
-# configuration section
-#
-# TODO: is there a better way to customize the install,
-#       rather than modifying this shell script directly?
+# CONFIGURATION - IMPORT FROM SEPARATE CONFIG FILE
 #
 ############################################################
 
-COUCHDB_PASS="your_password_here"
-NUNALIIT_BRANCH="branch-for-atlascine"
-ATLAS_TEMPLATE_BRANCH="rwanda"
-
-BASE_FOLDER="/atlascine"
-ATLAS_FOLDER="$BASE_FOLDER/rwanda"
-SOURCE_FOLDER="$BASE_FOLDER/nunaliit_source"
-
-RESTORE_EXISTING_DB=1
-DUMP_FOLDER="$BASE_FOLDER/dumps"
-# Restore this dump if RESTORE_EXISTING_DB=1
-DUMP_FILE="/vagrant/rwanda-atlas_dump_2021-03-10.tar.gz"
-UNPACKED_DUMP_NAME=dump_2021-03-10_16:37:24
-
-USE_BINDIR=1
-BINDIR="/usr/local/bin"
-
-# mvn install for the Nunaliit build cannot run as root.  I believe it
-# is due to this bug:
-#    https://github.com/npm/cli/issues/624
-# so as a workaround, we switch to this user for building Nunaliit.
-# Change to some appropriate account on your system:
-USER_BUILD_NUNALIIT="vagrant"
-
-GCRC_GITLAB_USER=""
-GCRC_GITLAB_PASS=""
+# Config file should be located in same directory as this script
+SCRIPT_FOLDER="$(dirname $0)"
+if [ ! -f "$SCRIPT_FOLDER/config.sh" ]; then
+    echo "ERROR: need to create config.sh for your environment"
+    pwd
+    exit 1
+fi
+. "$SCRIPT_FOLDER/config.sh"
 
 
 ############################################################
