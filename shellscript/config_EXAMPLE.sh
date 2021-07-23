@@ -16,6 +16,10 @@ BASE_FOLDER="/atlascine"
 ATLAS_FOLDER="$BASE_FOLDER/rwanda"
 SOURCE_FOLDER="$BASE_FOLDER/nunaliit_source"
 
+ATLAS_NAME="rwanda"
+DB_NAME="rwanda"
+DB_SUBMISSION_NAME="rwandasubmissions"
+
 RESTORE_EXISTING_DB=1
 DUMP_FOLDER="$BASE_FOLDER/dumps"
 # Restore this dump if RESTORE_EXISTING_DB=1
