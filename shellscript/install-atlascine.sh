@@ -58,6 +58,9 @@ couchdb couchdb/mode select standalone
 EOF
 $APT install couchdb=2.3.1~bionic
 apt-mark hold couchdb
+debconf-set-selections <<EOF
+ttf-mscorefonts-installer       msttcorefonts/accepted-mscorefonts-eula boolean true
+EOF
 $APT install imagemagick ffmpeg ubuntu-restricted-extras maven ant
 sed -i 's/^assistive_technologies=/#assistive_technologies=/' /etc/java-8-openjdk/accessibility.properties
 
