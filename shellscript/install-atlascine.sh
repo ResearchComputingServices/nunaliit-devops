@@ -36,9 +36,18 @@ DUMP_FOLDER="$BASE_FOLDER/dumps"
 DUMP_FILE="/vagrant/rwanda-atlas_dump_2021-03-10.tar.gz"
 UNPACKED_DUMP_NAME=dump_2021-03-10_16:37:24
 
-
 USE_BINDIR=1
 BINDIR="/usr/local/bin"
+
+# mvn install for the Nunaliit build cannot run as root.  I believe it
+# is due to this bug:
+#    https://github.com/npm/cli/issues/624
+# so as a workaround, we switch to this user for building Nunaliit.
+# Change to some appropriate account on your system:
+USER_BUILD_NUNALIIT="vagrant"
+
+GCRC_GITLAB_USER=""
+GCRC_GITLAB_PASS=""
 
 
 ############################################################
@@ -88,9 +97,13 @@ git clone https://github.com/GCRC/nunaliit.git "$SOURCE_FOLDER"
 cd "$SOURCE_FOLDER"
 git checkout $NUNALIIT_BRANCH
 
-# BUG: mvn install cannot run as root.  I believe it is due to this bug:
+# BUG: Nunaliit build (maven's installatino of project dependencies)
+# cannot run as root.  I believe it is due to this bug:
 #      https://github.com/npm/cli/issues/624
-mvn clean install
+# so switch to a non-root user for the Nunaliit build:
+chown -R $USER_BUILD_NUNALIIT "$SOURCE_FOLDER"
+su $USER_BUILD_NUNALIIT -c "mvn clean install"
+
 cd "$BASE_FOLDER"
 tar zxvf "$SOURCE_FOLDER"/nunaliit2-couch-sdk/target//nunaliit_*.tar.gz
 
