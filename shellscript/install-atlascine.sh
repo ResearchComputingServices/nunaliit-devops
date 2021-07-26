@@ -147,7 +147,7 @@ expect "admin user for CouchDB" { send "\n" }
 expect "password for the admin user" { send "$COUCHDB_PASS\n" }
 expect "port where the atlas is served" { send "\n" }
 expect "Google Map API key" { send "\n" }
-interact
+expect eof
 EOF
 
 $NUNALIIT update || die "failed to update Nunaliit atlas"
@@ -177,8 +177,8 @@ fi
 #
 ############################################################
 
-# sudo cp extra/nunaliit-rwanda.service  /etc/systemd/system/
-# ##nano /etc/systemd/system/nunaliit-rwanda.service
-# # In future, run as a non-root user?
-# systemctl enable nunaliit-home
-# systemctl start nunaliit-home
+cp $ATLAS_FOLDER/extra/nunaliit-$ATLAS_NAME.service /etc/systemd/system/ || die "Could not install startup service"
+# In future, run as a non-root user?
+sed -i 's/User=nunaliit/User=root/' /etc/systemd/system/nunaliit-$ATLAS_NAME.service || die "Could not change service username"
+systemctl enable nunaliit-$ATLAS_NAME || die "Could not enable service"
+systemctl start nunaliit-$ATLAS_NAME || die "Could not start service"
