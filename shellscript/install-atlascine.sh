@@ -129,6 +129,10 @@ git clone https://$GCRC_GITLAB_USER:$GCRC_GITLAB_PASS@gitlab.gcrc.carleton.ca/At
 cd "$ATLAS_FOLDER"
 git checkout $ATLAS_TEMPLATE_BRANCH || die "Could not find atlas branch ATLAS_TEMPLATE_BRANCH='$ATLAS_TEMPLATE_BRANCH'"
 
+## At least some atlas templates need this folder.  Not sure
+## if this folder path is hard-coded, or is configurable somewhere?
+mkdir -p "$ATLAS_FOLDER/media"
+
 ## Configure Nunaliit
 #
 # This java code is interactive only - no built-in option to script
