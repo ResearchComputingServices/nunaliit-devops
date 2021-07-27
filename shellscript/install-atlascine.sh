@@ -157,7 +157,7 @@ $NUNALIIT update || die "failed to update Nunaliit atlas"
 
 ############################################################
 #
-# D. Import Existing Data (optional)
+# D. IMPORT EXISTING DATA (OPTIONAL)
 #
 ############################################################
 
