@@ -58,6 +58,7 @@ DB_SUBMISSION_NAME="rwandasubmissions"                              # Submission
 ##############################################
 ATLAS_NAME="rwanda"                                                 # Name to call this Atlas installation
 ATLAS_TEMPLATE_BRANCH="rwanda"                                      # gitlab atlas template branch to use for this Atlas
+URL_PORT="8080"                                                     # Network port for atlas
 
 
 ##############################################

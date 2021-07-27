@@ -110,14 +110,12 @@ su $USER_BUILD_NUNALIIT -c "mvn clean install" || die "Failed to build Nunaliit 
 cd "$BASE_FOLDER"
 tar zxvf "$SOURCE_FOLDER"/nunaliit2-couch-sdk/target/nunaliit_*.tar.gz  || die "Could not open Nunaliit"
 
-## Optionally install nunaliit command on the system PATH
+## Install nunaliit command on the system PATH
 NUNALIIT="$BASE_FOLDER"/nunaliit_*/bin/nunaliit
-if [ "$USE_BINDIR" -ne 0 ]; then
-    if [ ! -e "$BINDIR/nunaliit" ]; then
-        ln -s $NUNALIIT "$BINDIR" || die "Could not setup shortcut to nunaliit command"
-    fi
-    NUNALIIT="$BINDIR/nunaliit"
+if [ ! -e "$BINDIR/nunaliit" ]; then
+    ln -s $NUNALIIT "$BINDIR" || die "Could not setup shortcut to nunaliit command"
 fi
+NUNALIIT="$BINDIR/nunaliit"
 
 
 #############################################################
@@ -145,7 +143,7 @@ expect "manually verify each document submission?" { send "Y\n" }
 expect "name of the database where submissions will be uploaded" { send "$DB_SUBMISSION_NAME\n" }
 expect "admin user for CouchDB" { send "\n" }
 expect "password for the admin user" { send "$COUCHDB_PASS\n" }
-expect "port where the atlas is served" { send "\n" }
+expect "port where the atlas is served" { send "$URL_PORT\n" }
 expect "Google Map API key" { send "\n" }
 expect eof
 EOF
