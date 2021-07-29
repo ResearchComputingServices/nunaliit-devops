@@ -1,4 +1,4 @@
 # Ryan uses emacs, which creates annoying temp files
 *~
-shellscript/.vagrant/
-shellscript/config.sh
+/.vagrant/
+/config.sh
