@@ -1,4 +1,4 @@
-On a fresh Ubuntu install, you can use th install-atlascine.sh shell
+On a fresh Ubuntu install, you can use the install-atlascine.sh shell
 script to setup Atlascine using these instructions:
 
 ```bash
