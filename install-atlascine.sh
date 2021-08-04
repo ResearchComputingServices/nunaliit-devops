@@ -71,7 +71,10 @@ $APT install imagemagick ffmpeg ubuntu-restricted-extras maven ant || die "could
 sed -i 's/^assistive_technologies=/#assistive_technologies=/' /etc/java-8-openjdk/accessibility.properties || die "could not configure java 8"
 
 ## Expect is only used in this script to automate 'nunaliit config'
-$APT install expect || die "could not install prerequisite packages"
+$APT install expect || die "could not install prerequisite packages (expect)"
+
+## jq is only used in this script to url-encode gitlab credentials
+$APT install jq || die "could not install prerequisite packages (jq)"
 
 ## Install couchdb
 echo "Configuring couchdb"   # die() causes debconf-set-selections to hang
@@ -125,7 +128,9 @@ NUNALIIT="$BINDIR/nunaliit"
 #############################################################
 
 ## Get Atlas template
-git clone https://$GCRC_GITLAB_USER:$GCRC_GITLAB_PASS@gitlab.gcrc.carleton.ca/Atlascine/atlas-template.git "$ATLAS_FOLDER" || die "could not download Atlas templates to ATLAS_FOLDER='$ATLAS_FOLDER'"
+USER_ESCAPED=$(jq -rn --arg var "$GCRC_GITLAB_USER" '$var|@uri')
+PASS_ESCAPED=$(jq -rn --arg var "$GCRC_GITLAB_PASS" '$var|@uri')
+git clone https://$USER_ESCAPED:$PASS_ESCAPED@gitlab.gcrc.carleton.ca/Atlascine/atlas-template.git "$ATLAS_FOLDER" || die "could not download Atlas templates to ATLAS_FOLDER='$ATLAS_FOLDER'"
 cd "$ATLAS_FOLDER"
 git checkout $ATLAS_TEMPLATE_BRANCH || die "Could not find atlas branch ATLAS_TEMPLATE_BRANCH='$ATLAS_TEMPLATE_BRANCH'"
 

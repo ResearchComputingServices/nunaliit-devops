@@ -36,8 +36,6 @@ USER_BUILD_NUNALIIT="ubuntu"
 ## NUNALIIT SOURCE CODE
 ##
 ##############################################
-GCRC_GITLAB_USER=""                                                 # User account at https://github.com/GCRC, to download Nunaliit
-GCRC_GITLAB_PASS=""                                                 # Corresponding password at https://github.com/GCRC
 NUNALIIT_BRANCH="branch-for-atlascine"                              # Branch of Nunaliit to use for Atlascine install
 
 
@@ -56,6 +54,8 @@ DB_SUBMISSION_NAME="rwandasubmissions"                              # Submission
 ## ATLAS SETTINGS
 ##
 ##############################################
+GCRC_GITLAB_USER=""                                                 # User account at https://gitlab.gcrc.carleton.ca, to download Atlas
+GCRC_GITLAB_PASS=""                                                 # Corresponding password at https://gitlab.gcrc.carleton.ca
 ATLAS_NAME="rwanda"                                                 # Name to call this Atlas installation
 ATLAS_TEMPLATE_BRANCH="rwanda"                                      # gitlab atlas template branch to use for this Atlas
 URL_PORT="8080"                                                     # Network port for atlas
