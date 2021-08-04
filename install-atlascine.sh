@@ -52,6 +52,17 @@ set -e
 #
 ############################################################
 
+## Make sure we are on Ubuntu 18.04
+if [ ! -e /etc/lsb-release ]; then
+    echo "OS not deteted. Must must this script on Ubuntu 18.04!"
+    exit 1
+fi
+source /etc/lsb-release
+if [ "$DISTRIB_ID" != "Ubuntu" -o "$DISTRIB_RELEASE" != "18.04" ]; then
+    echo "OS detected as '$DISTRIB_ID $DISTRIB_RELEASE'. Must run this script on Ubuntu 18.04!"
+    exit 1
+fi
+
 ## Setup couchdb apt repository
 curl https://couchdb.apache.org/repo/keys.asc | gpg --dearmor > /usr/share/keyrings/couchdb-archive-keyring.gpg || die "couchdb apt key installation failed"
 echo "deb [signed-by=/usr/share/keyrings/couchdb-archive-keyring.gpg] https://apache.jfrog.io/artifactory/couchdb-deb/ bionic main" > /etc/apt/sources.list.d/couchdb.list || die "couchdb apt repo setup failed"
