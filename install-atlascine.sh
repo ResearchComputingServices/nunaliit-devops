@@ -106,8 +106,8 @@ git checkout $NUNALIIT_BRANCH || die "Could not find Nunaliit branch: NUNALIIT_B
 # cannot run as root.  I believe it is due to this bug:
 #      https://github.com/npm/cli/issues/624
 # so switch to a non-root user for the Nunaliit build:
-chown -R $USER_BUILD_NUNALIIT "$SOURCE_FOLDER" || die "Could not set source ownership to USER_BUILD_NUNALIIT=$USER_BUILD_NUNALIIT"
-su $USER_BUILD_NUNALIIT -c "mvn clean install" || die "Failed to build Nunaliit from source code"
+chown -R "$USER_BUILD_NUNALIIT" "$SOURCE_FOLDER" || die "Could not set source ownership to USER_BUILD_NUNALIIT=$USER_BUILD_NUNALIIT"
+su "$USER_BUILD_NUNALIIT" -c "mvn clean install" || die "Failed to build Nunaliit from source code"
 
 ## Unpack Nunaliit binaries
 cd "$BASE_FOLDER"
@@ -132,7 +132,7 @@ USER_ESCAPED=$(jq -rn --arg var "$GCRC_GITLAB_USER" '$var|@uri')
 PASS_ESCAPED=$(jq -rn --arg var "$GCRC_GITLAB_PASS" '$var|@uri')
 git clone https://$USER_ESCAPED:$PASS_ESCAPED@gitlab.gcrc.carleton.ca/Atlascine/atlas-template.git "$ATLAS_FOLDER" || die "could not download Atlas templates to ATLAS_FOLDER='$ATLAS_FOLDER'"
 cd "$ATLAS_FOLDER"
-git checkout $ATLAS_TEMPLATE_BRANCH || die "Could not find atlas branch ATLAS_TEMPLATE_BRANCH='$ATLAS_TEMPLATE_BRANCH'"
+git checkout "$ATLAS_TEMPLATE_BRANCH" || die "Could not find atlas branch ATLAS_TEMPLATE_BRANCH='$ATLAS_TEMPLATE_BRANCH'"
 
 ## At least some atlas templates need this folder.  Not sure
 ## if this folder path is hard-coded, or is configurable somewhere?
@@ -167,14 +167,14 @@ $NUNALIIT update || die "failed to update Nunaliit atlas"
 ############################################################
 
 if [ "$RESTORE_EXISTING_DB" -ne 0 ]; then
-    mkdir -p $DUMP_FOLDER || die "Could not create folder DUMP_FOLDER='$DUMP_FOLDER'"
-    cd $DUMP_FOLDER
-    tar zxf $DUMP_FILE || die "Could not unpack DUMP_FILE='$DUMP_FILE'"
+    mkdir -p "$DUMP_FOLDER" || die "Could not create folder DUMP_FOLDER='$DUMP_FOLDER'"
+    cd "$DUMP_FOLDER"
+    tar zxf "$DUMP_FILE" || die "Could not unpack DUMP_FILE='$DUMP_FILE'"
     # I don't know whether this is helpful. Found it here:
     # https://github.com/GCRC/nunaliit/issues/862
     export JAVA_OPTS="-Xmx6g"
-    cd $ATLAS_FOLDER
-    "$NUNALIIT" restore --dump-dir "$DUMP_FOLDER/$UNPACKED_DUMP_NAME" || die "Failed to restore atlas from dump file"
+    cd "$ATLAS_FOLDER"
+    $NUNALIIT restore --dump-dir "$DUMP_FOLDER/$UNPACKED_DUMP_NAME" || die "Failed to restore atlas from dump file"
 fi
 
 
@@ -184,7 +184,7 @@ fi
 #
 ############################################################
 
-cp $ATLAS_FOLDER/extra/nunaliit-$ATLAS_NAME.service /etc/systemd/system/ || die "Could not install startup service"
+cp "$ATLAS_FOLDER/extra/nunaliit-$ATLAS_NAME.service" /etc/systemd/system/ || die "Could not install startup service"
 # In future, run as a non-root user?
 sed -i 's/User=nunaliit/User=root/' /etc/systemd/system/nunaliit-$ATLAS_NAME.service || die "Could not change service username"
 systemctl enable nunaliit-$ATLAS_NAME || die "Could not enable service"
